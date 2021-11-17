@@ -1,4 +1,29 @@
+os: linux
+dist: xenial
 language: python
-python:
-  - "3.6"
+addons:
+  apt:
+    packages:
+      - python3-pip
+
+stages:
+  - test
+  - deploy
+
+jobs:
+  fast_finish: true
+  include:
+    - python: '3.6'
+      env: TOX_ENV=py36-full
+
+before_install:
+  - python -m pip install --upgrade pip
+
+  install:
+  - pip install -r requirements.txt
+  - pip3 install --upgrade pip
+
+script: python3 -m unittest tests.test_dice
+
+
 
