@@ -7,11 +7,29 @@ addons:
     packages:
       - python3-pip
 
+jobs:
+ fast_finish: true
+  include:
+  - stage: Checkout
+  - stage: Deploy to Staging
+    script: skip
+    deploy: &heroku
+     provider: heroku
+     app: salty-fjord-84835
+     api_key: $HEOKU_AUTH_TOKEN
+  - stage: Test Staging
+    script: 'curl https://salty-fjord-84835.herokuapp.com'
+  - stage: Deploy to Production
+    script: skip
+    deploy:
+     <<: *heroku
+     app: pacific mountain-30651
+  - stage: Test Production
+    script: 'curl https://pacific-mountain-30651.herokuapp.com'
+
 before_install:
   - python -m pip install --upgrade pip
 
 install:
   - pip install -r requirements.txt
   - pip3 install --upgrade pip
-
-script: python3 -m unittest tests.test_dice
