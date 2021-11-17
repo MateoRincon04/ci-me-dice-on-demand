@@ -15,7 +15,13 @@ install:
 - pip install -r requirements.txt
 - pip3 install --upgrade pip
 jobs:
+  fast_finish: true
   include:
+  - stage: Checkout
+    install: 
+        - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
+        - cd $TRAVIS_REPO_SLUG
+        - git checkout -qf $TRAVIS_COMMIT
   - stage: Unit Test
     script: python -m unittest tests.test_dice
   - stage: Deploy to Staging
