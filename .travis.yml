@@ -1,3 +1,4 @@
+# paste config here
 os: linux
 dist: xenial
 language: python
@@ -9,7 +10,7 @@ addons:
 before_install:
   - python -m pip install --upgrade pip
 
-  install:
+install:
   - pip install -r requirements.txt
   - pip3 install --upgrade pip
 
