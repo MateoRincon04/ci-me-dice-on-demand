@@ -16,20 +16,20 @@ install:
   - pip3 install --upgrade pip
 jobs:
   include:
-    - stage: unit tests
+    - stage: Unit Test
       script: python -m unittest tests.test_dice
-    - stage: deploy to staging
+    - stage: Deploy to Staging
       script: skip
       deploy: &heroku
         provider: heroku
-        app: pacific-lake-63914 
+        app: salty-fjord-84835
         api_key: $HEROKU_AUTH_TOKEN
-    - stage: test staging
-      script: 'curl https://pacific-lake-63914.herokuapp.com/'
-    - stage: deploy to production
+    - stage: Test Staging
+      script: 'curl https://salty-fjord-84835.herokuapp.com/'
+    - stage: Deploy to Production
       script: skip
       deploy:
         <<: *heroku
-        app: peaceful-brushlands-68941
-    - stage: test production
-      script: 'curl http://sf-stages-production.herokuapp.com'
+        app: pacific-mountain-30651
+    - stage: Test Production
+      script: 'curl http://pacific-mountain-30651.herokuapp.com'
