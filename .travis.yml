@@ -4,35 +4,37 @@ language: python
 addons:
   apt:
     packages:
-      - python3-pip
+    - python3-pip
 before_install:
-  - python -m pip install --upgrade pip
-script: 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_requests;fi'
+- python -m pip install --upgrade pip
+script: if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_requests;fi
 branches:
   only:
-    - main
+  - main
 install:
-  - pip install -r requirements.txt
-  - pip3 install --upgrade pip
+- pip install -r requirements.txt
+- pip3 install --upgrade pip
 jobs:
   include:
-    - stage: Unit Test
-      script: python -m unittest tests.test_dice
-    - stage: Deploy to Staging
-      script: skip
-      deploy: &heroku
-        provider: heroku
-        app: salty-fjord-84835
-        api_key: $HEROKU_AUTH_TOKEN
-    - stage: Test Staging
-      script: 'curl https://salty-fjord-84835.herokuapp.com/'
-    - stage: Deploy to Production
-      script: skip
-      deploy:
-        <<: *heroku
-        app: pacific-mountain-30651
-    - stage: Test Production
-      script: 'curl http://pacific-mountain-30651.herokuapp.com'
-
+  - stage: Unit Test
+    script: python -m unittest tests.test_dice
+  - stage: Deploy to Staging
+    script: skip
+    deploy:
+      provider: heroku
+      app: salty-fjord-84835
+      api_key: "$HEROKU_AUTH_TOKEN"
+  - stage: Test Staging
+    script: curl https://salty-fjord-84835.herokuapp.com/
+  - stage: Deploy to Production
+    script: skip
+    deploy:
+      provider: heroku
+      app: pacific-mountain-30651
+      api_key: "$HEROKU_AUTH_TOKEN"
+  - stage: Test Production
+    script: curl http://pacific-mountain-30651.herokuapp.com
 notifications:
-  slack: praxisunal:dxd3moivn9mMNzdI7iFmNJMO
+  slack:
+    rooms:
+      secure: Hodc//JgvsvuMdPd+2/amOvZsGfo/bEdPxl7aJmdm4TsmxbChaHB/bxWyG9mZlNzozL9te/1f8c/jnympgjCrqEvdXi/RXbLmUCpOlhHuuB75BlY3Od2XO4OymvFNzGKl8kx9y0eSvgo/zKsBzvqm08M262Rpd8977p1uoO6w3lIjhvf937+5DFimx5hNdsMdNRLufRTKyMGCqC8rvgyaEFe5lttEO2LjJGcuRpa8yREv8HhkonRgc4hDyRSTpE7Jd3LAXSh9zHsIOrs+ylmDDwqxBA+wds3DN2uxlVmpJrVl//d/hG5JFsXMl2J/2brR2ZJiOm4IlFUwbsRbYO9vhYtr4ksklWUqj3kw/v7zuCjoOVBf2m9Z84BxndkKiPv1KRUrt7meNfDYjOF2pmOORkgctZZNT3kRLCWBSbv2VZL8AA5dWnquHV4/Re4Fp4YgLy969dXonAejzK8lDI9TxL1lFxSFNaXRMseBNl0Kik801RlerN6EcGPZuZ98K8xCA2RwZG/iOPxgqe0llM2bRUY+OVZCbTjPmDem0x+fWToqdp+NuM2TFCks84pBd4wzArKhbZNCLY0ryxa7NoA1WZluuZkp1806+RrW5lZkpJukwqUXIzuBEVehIyt3QGNhKxmTrMShMr8jc27MWamSMsjGMn/C7GEtK+rwiBIU+A=
