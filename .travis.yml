@@ -33,3 +33,6 @@ jobs:
         app: pacific-mountain-30651
     - stage: Test Production
       script: 'curl http://pacific-mountain-30651.herokuapp.com'
+
+notifications:
+  slack: praxisunal:dxd3moivn9mMNzdI7iFmNJMO
